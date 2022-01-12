@@ -1,4 +1,7 @@
 # Write your code below game_hash
+
+require 'pry'
+
 def game_hash
   {
     home: {
@@ -126,4 +129,64 @@ def game_hash
   }
 end
 
-# Write code here
+def all_players 
+  players = game_hash[:home][:players] + game_hash[:away][:players]
+end
+
+def player_stats player_name
+  all_players.find do |player|
+    player[:player_name] == player_name
+  end
+end
+
+def num_points_scored player_name
+  player_stats(player_name)[:points]
+end
+
+def shoe_size player_name
+  player_stats(player_name)[:shoe]
+end
+
+def team_colors team_name
+  if game_hash[:home][:team_name] == team_name
+    game_hash[:home][:colors]
+  else
+    game_hash[:away][:colors]
+  end
+end
+
+def team_names
+  array = []
+  array << game_hash[:home][:team_name]
+  array << game_hash[:away][:team_name]
+
+  array
+end
+
+def big_shoe_rebounds
+  player = all_players.max_by do |player|
+    player[:shoe]
+  end
+
+  player[:rebounds]
+end
+
+big_shoe_rebounds
+def find_team team_name
+  team_info = game_hash.find do |location, team_data|
+    team_data[:team_name] == team_name
+  end
+
+  team_info[1]
+end
+
+def player_numbers team_name
+  team = game_hash.find do |location, team_data|
+    team_data[:team_name] == team_name
+  end
+
+  team[1][:players].map { |player| player[:number]}
+end
+
+
+puts player_numbers "Brooklyn Nets"
